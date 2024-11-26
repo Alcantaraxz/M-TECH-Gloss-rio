@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/glossario.css">
+    <link rel="icon" href="" type="image/x-icon">
+    <title>Glossário M-Tech</title>
+</head>
+<body>
+    <div class="cabecalho">
+        <div class="inicio">
+            <img src="/static/mtech.png" alt="" class="logoMtech">
+            <h1>Glossário Matheus</h1>
+        </div>
+    </div>
+    <p class="paragrafo">Bem vindo ao nosso <b>Glossário!</b> </p>
+
+    <div class="alfabeto">
+        <div class="botão">
+            <button class="alphabet-button" onclick="handleAlphabetSearch('A')" >A</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('B')">B</button>
+            <button class="alphabet-button"  onclick="handleAlphabetSearch('C')">C</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('D')">D</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('E')">E</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('F')">F</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('G')">G</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('H')">H</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('I')">I</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('J')">J</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('K')">K</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('L')">L</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('M')">M</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('N')">N</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('O')">O</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('P')">P</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('R')">R</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('S')">S</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('T')">T</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('U')">U</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('V')">V</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('W')">W</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('X')">X</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('Y')">Y</button>
+            <button class="alphabet-button" onclick="handleAlphabetSearch('Z')">Z</button>
+
+        </div>
+        <div id="searchResults"></div>
+    </div>
+
+    <footer>
+        <div class="rodape">
+            <img src="/static/Logo Branca.png" alt="Logo" class="logo">
+            <img src="/static/logo_proj_lucas01.png" alt="Logo" class="logo">
+            <div class="textoparagrafo">
+                <p>Desenvolvido por: Matheus Calebe</p>
+                <p>Gama-DF</p>
+                <p>(61) 98664-1036</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script>
+        // Função para buscar palavras por letra inicial
+        function handleAlphabetSearch(letter) {
+            const searchResults = document.getElementById('searchResults');
+
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: letter })
+            })
+            .then(response => response.json())
+            .then(data => {
+                searchResults.innerHTML = '';
+                if (data.results.length > 0) {
+                    data.results.forEach(result => {
+                        const div = document.createElement('div');
+                        div.className = 'result-item';
+                        div.innerHTML = `<h3>${result.word}</h3><p>${result.description}</p>`;
+                        searchResults.appendChild(div);
+                    });
+                } else {
+                    searchResults.innerHTML = '<p>Nenhum resultado encontrado.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        }
+    </script>
+</body>
+</html>
